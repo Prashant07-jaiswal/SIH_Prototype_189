@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import { ZoomIn, ZoomOut, Maximize2, Filter, X, User, Phone, Car, Landmark, MapPin, FileText } from 'lucide-react';
+import QueryBar from './QueryBar';
 
 const ENTITY_COLORS = {
   Person: '#ef4444',       // Crimson Red
@@ -322,6 +323,9 @@ export default function GraphCanvas({ graphData, onSelectNode, selectedNode }) {
           </div>
         </div>
       )}
+
+      {/* Natural Language Query Bar */}
+      <QueryBar graphData={graphData} onHighlightPath={null} />
     </div>
   );
 }

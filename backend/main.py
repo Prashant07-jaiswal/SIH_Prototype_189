@@ -459,21 +459,64 @@ async def natural_language_query(request: QueryRequest):
     - "What's the path from Vikram to ₹50L transfer?"
     - "Who's the intermediary between Mumbai and Delhi?"
     """
-    if not app_state.network_graph:
+    if not app_state.network_graph or not app_state.entities:
         raise HTTPException(status_code=400, detail="Run /api/ingest/all first")
 
     try:
-        # Simple implementation: For now, return placeholder
-        # In real implementation, would:
-        # 1. Parse query to extract entity names
-        # 2. Find matching entities
-        # 3. Use PathFinder to find connections
-        # 4. Return highlighted path
+        query = request.query.lower()
+        logger.info(f"Processing query: {query}")
+
+        # Extract keywords from query
+        keywords = query.split()
+        matches = []
+
+        # Find matching entities by name/keywords
+        for entity in app_state.entities:
+            entity_name = entity.name.lower()
+            for keyword in keywords:
+                if len(keyword) > 2 and keyword in entity_name:
+                    matches.append({
+                        'name': entity.name,
+                        'id': entity.id,
+                        'type': entity.type,
+                        'keyword': keyword
+                    })
+
+        # Build response message
+        if matches:
+            message = f"Found {len(matches)} matching entities:\n\n"
+
+            unique_names = list(set([m['name'] for m in matches]))
+            for name in unique_names[:5]:  # Show top 5
+                message += f"• {name}\n"
+
+            # If we have network graph, analyze connections
+            if app_state.network_graph and len(matches) >= 1:
+                first_entity_id = matches[0]['id']
+                if first_entity_id in app_state.network_graph:
+                    neighbors = list(app_state.network_graph.neighbors(first_entity_id))
+                    message += f"\n{matches[0]['name']} is connected to {len(neighbors)} entities:\n"
+
+                    # Show some neighbors
+                    for neighbor_id in neighbors[:5]:
+                        neighbor_entity = next((e for e in app_state.entities if e.id == neighbor_id), None)
+                        if neighbor_entity:
+                            message += f"  → {neighbor_entity.name} ({neighbor_entity.type})\n"
+
+                    if len(neighbors) > 5:
+                        message += f"  ... and {len(neighbors) - 5} more connections"
+        else:
+            message = f"No matching entities found for query: '{request.query}'\n\nTry searching for:\n"
+            # Show some example entities
+            for entity in app_state.entities[:5]:
+                message += f"• {entity.name}\n"
 
         return {
             "status": "success",
             "query": request.query,
-            "message": "Query endpoint ready (detailed implementation in Phase 3 extension)"
+            "message": message,
+            "matches_found": len(matches),
+            "entities_analyzed": len(app_state.entities)
         }
     except Exception as e:
         logger.error(f"Error processing query: {str(e)}")

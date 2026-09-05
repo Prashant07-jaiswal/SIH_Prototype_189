@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Network, Database, Users, Activity, Shield, AlertTriangle, RefreshCw, UploadCloud, MapPin } from 'lucide-react';
+import { Network, Database, Users, Activity, Shield, AlertTriangle, RefreshCw, UploadCloud } from 'lucide-react';
 import * as api from './services/api';
 import GraphCanvas from './components/GraphCanvas';
-import LocationMapView from './components/LocationMapView';
 import UploadModal from './components/UploadModal';
 import './index.css';
 
@@ -10,7 +9,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
-  const [viewMode, setViewMode] = useState('graph'); // 'graph' or 'map'
 
   // State for analytics and graph
   const [graphData, setGraphData] = useState({ nodes: [], edges: [] });
@@ -118,44 +116,6 @@ function App() {
         </div>
 
         <div className="action-bar">
-          {/* View Mode Tabs */}
-          <div style={{ display: 'flex', gap: 8, marginRight: 16, borderRight: '1px solid #334155', paddingRight: 16 }}>
-            <button
-              onClick={() => setViewMode('graph')}
-              style={{
-                padding: '8px 12px',
-                background: viewMode === 'graph' ? '#3b82f6' : '#1e293b',
-                border: viewMode === 'graph' ? '1px solid #3b82f6' : '1px solid #334155',
-                color: '#e2e8f0',
-                borderRadius: 4,
-                cursor: 'pointer',
-                fontSize: '0.85rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
-            >
-              <Network size={16} /> Graph
-            </button>
-            <button
-              onClick={() => setViewMode('map')}
-              style={{
-                padding: '8px 12px',
-                background: viewMode === 'map' ? '#3b82f6' : '#1e293b',
-                border: viewMode === 'map' ? '1px solid #3b82f6' : '1px solid #334155',
-                color: '#e2e8f0',
-                borderRadius: 4,
-                cursor: 'pointer',
-                fontSize: '0.85rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-              }}
-            >
-              <MapPin size={16} /> Map
-            </button>
-          </div>
-
           <button
             className="btn-primary"
             style={{ padding: '8px 16px', fontSize: '0.85rem', backgroundColor: '#1e293b', border: '1px solid #334155' }}
@@ -280,14 +240,8 @@ function App() {
                 {loading ? 'Analyzing Intelligence Data...' : 'Run Pipeline & Ingest'}
               </button>
             </div>
-          ) : viewMode === 'graph' ? (
-            <GraphCanvas
-              graphData={graphData}
-              selectedNode={selectedNode}
-              onSelectNode={setSelectedNode}
-            />
           ) : (
-            <LocationMapView
+            <GraphCanvas
               graphData={graphData}
               selectedNode={selectedNode}
               onSelectNode={setSelectedNode}

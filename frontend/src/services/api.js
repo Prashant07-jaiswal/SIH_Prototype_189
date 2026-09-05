@@ -12,5 +12,6 @@ export const getGraphStats = () => api.get('/api/graph/stats');
 export const getKeyPlayers = () => api.get('/api/analytics/key-players');
 export const getCommunities = () => api.get('/api/analytics/communities');
 export const runIngestion = () => api.post('/api/ingest/all');
+export const queryNetwork = (query) => api.post('/api/query', { query });
 
 export default api;
