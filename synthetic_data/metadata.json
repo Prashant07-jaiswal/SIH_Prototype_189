@@ -1,0 +1,129 @@
+{
+  "dataset_name": "Criminal Network Synthetic Data (SIH 2024)",
+  "generated_date": "2026-09-05T00:20:45.477804",
+  "gangs": {
+    "Gang_A_Mumbai": {
+      "name": "मुंबई कार्टेल (Mumbai Cartel)",
+      "members": [
+        "Vikram Sharma",
+        "Ramesh Gupta",
+        "Priya Desai"
+      ],
+      "locations": [
+        "Mumbai",
+        "Thane",
+        "Navi Mumbai"
+      ],
+      "crimes": [
+        "Drug Trafficking",
+        "Extortion",
+        "Money Laundering"
+      ]
+    },
+    "Gang_B_UP": {
+      "name": "उत्तर प्रदेश रिंग (UP Criminal Ring)",
+      "members": [
+        "Rohit Singh",
+        "Suresh Kumar",
+        "Akshay Patel"
+      ],
+      "locations": [
+        "Lucknow",
+        "Kanpur",
+        "Agra"
+      ],
+      "crimes": [
+        "Vehicle Theft",
+        "Highway Robbery",
+        "Forgery"
+      ]
+    },
+    "Gang_C_Hawala": {
+      "name": "हवाला नेटवर्क (Hawala Network)",
+      "members": [
+        "Ramesh Bhat",
+        "Mohammad Khan",
+        "Vikram Iyer"
+      ],
+      "locations": [
+        "Delhi",
+        "Bangalore",
+        "Hyderabad"
+      ],
+      "crimes": [
+        "Money Laundering",
+        "Hawala",
+        "Illegal Fund Transfer"
+      ]
+    },
+    "Gang_D_Interstate": {
+      "name": "अंतरराज्यीय सिंडिकेट (Interstate Smuggling)",
+      "members": [
+        "Arun Verma",
+        "Deepak Singh",
+        "Ravi Nair"
+      ],
+      "locations": [
+        "Delhi",
+        "Gurgaon",
+        "Noida"
+      ],
+      "crimes": [
+        "Smuggling",
+        "GST Fraud",
+        "Counterfeiting"
+      ]
+    }
+  },
+  "vehicles": [
+    {
+      "plate": "MH02AB1234",
+      "model": "Fortuner",
+      "owner": "Vikram Sharma"
+    },
+    {
+      "plate": "UP32CD5678",
+      "model": "Splendor",
+      "owner": "Rohit Singh"
+    },
+    {
+      "plate": "DL01EF9012",
+      "model": "Creta",
+      "owner": "Ramesh Bhat"
+    },
+    {
+      "plate": "KA03GH3456",
+      "model": "Innova",
+      "owner": "Mohammad Khan"
+    },
+    {
+      "plate": "UP14IJ7890",
+      "model": "Swift",
+      "owner": "Suresh Kumar"
+    }
+  ],
+  "banks": [
+    {
+      "name": "HDFC Bank",
+      "ifsc": "HDFC0000123"
+    },
+    {
+      "name": "ICICI Bank",
+      "ifsc": "ICIC0000456"
+    },
+    {
+      "name": "Axis Bank",
+      "ifsc": "UTIB0000789"
+    },
+    {
+      "name": "SBI",
+      "ifsc": "SBIN0001234"
+    }
+  ],
+  "summary": {
+    "total_firs": 5,
+    "total_cdr_records": 2848,
+    "total_transactions": 105,
+    "date_range": "2024-01-01 to 2024-01-31"
+  }
+}

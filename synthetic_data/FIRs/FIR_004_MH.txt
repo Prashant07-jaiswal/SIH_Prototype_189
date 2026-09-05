@@ -1,0 +1,28 @@
+
+═══════════════════════════════════════════════════════════════════
+                    FIRST INFORMATION REPORT (FIR)
+═══════════════════════════════════════════════════════════════════
+
+FIR Number: MH/2024/34567
+District: Thane
+Police Station: Thane Central
+Date of FIR: 2024-03-20
+IPC Sections: 21, 379, 120B
+
+NARRATIVE:
+
+        तारीख 19-03-2024 को Thane में एक अवैध हथियार store को raid किया गया।
+        Suspects: Priya Desai (उर्फ़ प्रिया, प्रिया ठाणे) और Akshay Patel (उर्फ़ अक्षय पटेल, अक्षय)
+
+        Priya के फोन (9012345678) की call logs से पता चला कि वह Vikram Sharma और Ramesh Gupta
+        दोनों के साथ नियमित संपर्क में है। Vehicle Innova (KA03GH3456) को संदिग्ध माना गया है।
+
+        Account HDFC_ACC_1001 से ₹15,00,000 का transfer हुआ है।
+        
+
+SUSPECTS: Priya Desai, Akshay Patel
+PHONE NUMBERS: 9012345678, 9234567890
+VEHICLES: KA03GH3456
+BANK ACCOUNTS: HDFC_ACC_1001
+
+═══════════════════════════════════════════════════════════════════
