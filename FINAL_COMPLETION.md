@@ -149,4 +149,4 @@ Demo: ✅ READY FOR JUDGES
 
 **Your Criminal Network Intelligence System is production-ready! 🚀**
 
-**Go present and impress those SIH judges! 🎊**
+**Go present and impress those judges! 🎊**

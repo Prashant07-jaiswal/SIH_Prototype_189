@@ -1,6 +1,6 @@
 # 🕵️ Criminal Network Intelligence System - Complete Demo Guide
 
-**Status:** ✅ Phase 1-5 Complete | Ready for SIH Demo
+**Status:** ✅ Phase 1-5 Complete | Ready for Demo
 
 ---
 

@@ -1,4 +1,4 @@
-# Criminal Network Synthetic Dataset - SIH 2024
+# Criminal Network Synthetic Dataset
 
 ## 📋 Overview
 
@@ -358,4 +358,4 @@ To regenerate with different parameters, edit `GANGS`, `VEHICLES`, `BANKS` in th
 
 ---
 
-**Dataset Ready for SIH Prototype! 🚀**
+**Dataset Ready for Prototype! 🚀**

@@ -432,7 +432,7 @@ Enable direct action (who to arrest)
 | **Police Can Use** | Indirectly | Directly | More useful |
 | **Explains Anomalies** | Yes | Yes | Both good |
 | **Actionable Arrests** | No | Yes | Important for police |
-| **For SIH Demo** | Good | Better | Show understanding |
+| **For Demo** | Good | Better | Show understanding |
 | **Technical Depth** | High | High | Either works |
 
 ---
@@ -463,7 +463,7 @@ Enable direct action (who to arrest)
 **Current System:** Optimized for "what's anomalous" (financial fraud detection)
 **Better System:** Optimized for "who's dangerous" (criminal investigation)
 
-### For Your SIH Demo
+### For Your Demo
 
 If judges ask why bank accounts rank high:
 > "We identify money laundering through account anomalies, then trace back to the criminals operating them. This hybrid approach combines financial forensics with criminal network analysis."

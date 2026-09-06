@@ -274,7 +274,7 @@ All files modified:
 - ✅ `backend/entity_resolution.py` - Vehicle/Account preservation fixed
 - ✅ No changes to frontend needed (was already correct)
 
-System is **production-ready** for SIH 2024! 🚀
+System is **production-ready** for Criminal Network Intelligence System! 🚀
 
 ---
 

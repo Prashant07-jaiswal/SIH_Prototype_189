@@ -42,7 +42,7 @@
 ```
 ╔════════════════════════════════════════════════════════════════╗
 ║                                                                ║
-║  Criminal Network Intelligence System - SIH 2024 Prototype    ║
+║  Criminal Network Intelligence System - Criminal Network Intelligence System Prototype    ║
 ║                                                                ║
 ║  Phase 1: Synthetic Dataset ..................... ✅ COMPLETE  ║
 ║  Phase 2: Backend Architecture ................. ✅ COMPLETE  ║

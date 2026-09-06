@@ -1,4 +1,4 @@
-# 🎯 SIH 2024 Prototype - Executive Summary
+# 🎯 Prototype - Executive Summary
 
 ## Project Overview
 
@@ -17,7 +17,7 @@ Phase 3: Graph Analytics             ⏳ READY TO START (2-3 days)
 Phase 4: React Frontend              ⏳ QUEUED (2-3 days)
 Phase 5: Integration & Demo          ⏳ FINAL (1-2 days)
 
-Total Progress: 40% Complete | On Track for SIH Submission
+Total Progress: 40% Complete | On Track for Submission
 ```
 
 ---
@@ -72,7 +72,7 @@ React Frontend (Phase 4 - QUEUED)
 ├── Anomaly detection panel
 └── Natural language query bar
     ↓
-SIH Demo (Phase 5 - FINAL)
+Demo (Phase 5 - FINAL)
 └── End-to-end prototype for judges
 ```
 
@@ -200,7 +200,7 @@ Not just "who called whom" but WHY it's suspicious:
 
 ---
 
-## 🎯 Expected SIH Demo (Phase 5)
+## 🎯 Expected Demo (Phase 5)
 
 ### Judges See:
 
@@ -280,7 +280,7 @@ Build with NetworkX:
 
 ---
 
-## 🏆 SIH Evaluation Criteria
+## 🏆 Evaluation Criteria
 
 | Criterion | Status | Evidence |
 |-----------|--------|----------|
@@ -305,7 +305,7 @@ Build with NetworkX:
 | Phase 4: Frontend | ⏳ Pending | 2-3 days | Sept 9-10 |
 | Phase 5: Demo | ⏳ Pending | 1-2 days | Sept 11 |
 
-**Total:** ~10-12 days → SIH Submission Ready
+**Total:** ~10-12 days
 
 ---
 
@@ -339,7 +339,7 @@ Implement Phase 3 - Graph Analytics with NetworkX
 - Key players ranked by centrality
 - Communities detected by Louvain
 - Natural language queries answered
-- Demo-ready prototype for SIH judges
+- Demo-ready prototype for judges
 
 ---
 

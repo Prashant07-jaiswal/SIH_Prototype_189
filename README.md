@@ -1,4 +1,4 @@
-# SIH 2024 Prototype - Criminal Network Analysis System
+# Criminal Network Analysis System - Prototype
 
 ## 📊 Project Status: Phase 1 & 2 Complete ✅
 

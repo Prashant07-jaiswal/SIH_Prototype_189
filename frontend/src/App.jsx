@@ -112,7 +112,6 @@ function App() {
         <div className="brand">
           <Shield color="#00f0ff" size={28} />
           <span className="brand-title">Criminal Network Intelligence</span>
-          <span className="brand-subtitle">SIH 2024</span>
         </div>
 
         <div className="action-bar">

@@ -307,7 +307,7 @@ But the system is **complete and ready as-is** ✅
 ╔══════════════════════════════════════════════════════════╗
 ║                                                          ║
 ║  Criminal Network Intelligence System                   ║
-║  SIH 2024 Prototype - Final Build                       ║
+║  Criminal Network Intelligence System Prototype - Final Build                       ║
 ║                                                          ║
 ║  Session: 06-SEP-2026                                  ║
 ║  Status: ✅ COMPLETE & TESTED                          ║

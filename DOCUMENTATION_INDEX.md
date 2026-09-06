@@ -50,7 +50,7 @@
 - Evaluation checklist for judges
 - Complete implementation details
 
-### 🎬 I Want to Prepare for SIH Demo
+### 🎬 I Want to Prepare for Demo
 → Start here: [SIH_DEMO_SCRIPT.md](#demo-script) (See below)
 
 ---
@@ -105,7 +105,7 @@
 4. Read the code in your IDE
 5. Modify as needed
 
-### 🎓 SIH Judge
+### 🎓 Judge
 **Goal**: Evaluate the solution quickly
 
 1. [COMPLETE_SUMMARY.md](COMPLETE_SUMMARY.md) — Visual overview (10 min)
@@ -122,7 +122,7 @@
 
 ---
 
-## 🎬 SIH Demo Script
+## 🎬 Demo Script
 
 ### Pre-Demo (5 minutes)
 - Ensure backend running on `http://localhost:8000`
@@ -413,6 +413,6 @@ You have everything you need:
 - ✅ Quick reference
 - ✅ Troubleshooting guide
 
-**The system is production-ready and SIH-demo-ready.**
+**The system is production-ready and demo-ready.**
 
 **Good luck with your presentation! 🚀**

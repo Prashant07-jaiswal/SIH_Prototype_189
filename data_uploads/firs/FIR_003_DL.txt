@@ -1,0 +1,31 @@
+
+═══════════════════════════════════════════════════════════════════
+                    FIRST INFORMATION REPORT (FIR)
+═══════════════════════════════════════════════════════════════════
+
+FIR Number: DL/2024/11223
+District: Delhi
+Police Station: Cyber Crime Cell
+Date of FIR: 2024-03-05
+IPC Sections: 420, 408, 120B, 188
+
+NARRATIVE:
+
+        तारीख 04-03-2024 को Intelligence agency को एक tip मिला कि एक बड़ा hawala नेटवर्क
+        Delhi, Bangalore और Hyderabad में काम कर रहा है।
+
+        मुख्य suspect है Ramesh Bhat (उर्फ़ रमेश भट्ट, भैया, धनी रमेश) जिसका Creta (DL01EF9012)
+        है और उसका partner है Mohammad Khan (उर्फ़ मोहम्मद खान, खान sahab, मो खान)।
+
+        फोन 7654321098 और 7123456789 से इन्होंने 15 दिन में ₹3,50,00,000 का illegal transfer किया है।
+        Bank accounts: UTIB_ACC_3001, SBIN_ACC_3002।
+
+        Financial trail से पता चला कि Vikram Sharma (Mumbai) से भी connection है।
+        
+
+SUSPECTS: Ramesh Bhat, Mohammad Khan
+PHONE NUMBERS: 7654321098, 7123456789
+VEHICLES: DL01EF9012
+BANK ACCOUNTS: UTIB_ACC_3001, SBIN_ACC_3002
+
+═══════════════════════════════════════════════════════════════════
