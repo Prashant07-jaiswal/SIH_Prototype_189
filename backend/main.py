@@ -515,6 +515,7 @@ async def natural_language_query(request: QueryRequest):
             "status": "success",
             "query": request.query,
             "message": message,
+            "matches": matches,
             "matches_found": len(matches),
             "entities_analyzed": len(app_state.entities)
         }

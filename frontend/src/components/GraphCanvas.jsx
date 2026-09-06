@@ -21,6 +21,7 @@ export default function GraphCanvas({ graphData, onSelectNode, selectedNode }) {
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
   const [filterType, setFilterType] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
+  const [highlightedNodeIds, setHighlightedNodeIds] = useState([]);
 
   // Update canvas dimensions on container resize
   useEffect(() => {
@@ -77,8 +78,31 @@ export default function GraphCanvas({ graphData, onSelectNode, selectedNode }) {
       }));
     }
 
+    // Apply NLQ Highlights (from QueryBar results)
+    if (highlightedNodeIds.length > 0) {
+      nodes = nodes.map(n => ({
+        ...n,
+        isHighlighted: highlightedNodeIds.includes(n.id) || n.isHighlighted
+      }));
+    }
+
     return { nodes, links };
-  }, [graphData, filterType, searchQuery]);
+  }, [graphData, filterType, searchQuery, highlightedNodeIds]);
+
+  // Handle NLQ highlight callback
+  const handleHighlightPath = (highlightData) => {
+    if (highlightData && highlightData.nodeIds) {
+      setHighlightedNodeIds(highlightData.nodeIds);
+    }
+  };
+
+  // Clear highlights when search query changes
+  const handleSearchChange = (value) => {
+    setSearchQuery(value);
+    if (!value.trim()) {
+      setHighlightedNodeIds([]);
+    }
+  };
 
   // Zoom controls
   const handleZoomIn = () => {
@@ -126,7 +150,7 @@ export default function GraphCanvas({ graphData, onSelectNode, selectedNode }) {
           type="text"
           placeholder="Search node / phone / plate..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => handleSearchChange(e.target.value)}
           style={{
             background: '#0a0f18',
             border: '1px solid #2e3c54',
@@ -325,7 +349,7 @@ export default function GraphCanvas({ graphData, onSelectNode, selectedNode }) {
       )}
 
       {/* Natural Language Query Bar */}
-      <QueryBar graphData={graphData} onHighlightPath={null} />
+      <QueryBar graphData={graphData} onHighlightPath={handleHighlightPath} />
     </div>
   );
 }
