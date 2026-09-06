@@ -116,124 +116,130 @@ export default function UploadModal({ isOpen, onClose, onRefresh }) {
         </div>
 
         {/* Body */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {/* FIRs */}
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: 16,
-              background: "#1b263b",
-              border: "2px dashed #2e3c54",
-              borderRadius: 8,
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#00f0ff";
-              e.currentTarget.style.background = "rgba(0, 240, 255, 0.05)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "#2e3c54";
-              e.currentTarget.style.background = "#1b263b";
-            }}
-          >
-            <FileText size={20} color="#3b82f6" />
-            <span style={{ color: "#e2e8f0", fontSize: "0.95rem" }}>
-              FIR / Case Diary (*.txt / *.pdf) – Drop multiple files
-            </span>
-            <input
-              type="file"
-              accept=".txt,.pdf"
-              multiple
-              onChange={handleFirs}
-              style={{ display: "none" }}
-            />
-          </label>
-          {firs.length > 0 && (
-            <p style={{ color: "#10b981", fontSize: "0.85rem", margin: "0 0 -12px 0" }}>
-              ✓ {firs.length} FIR file(s) selected
-            </p>
-          )}
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: 16,
+                background: "#1b263b",
+                border: "2px dashed #2e3c54",
+                borderRadius: 8,
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#00f0ff";
+                e.currentTarget.style.background = "rgba(0, 240, 255, 0.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#2e3c54";
+                e.currentTarget.style.background = "#1b263b";
+              }}
+            >
+              <FileText size={20} color="#3b82f6" />
+              <span style={{ color: "#e2e8f0", fontSize: "0.95rem" }}>
+                FIR / Case Diary (*.txt / *.pdf) – Drop multiple files
+              </span>
+              <input
+                type="file"
+                accept=".txt,.pdf"
+                multiple
+                onChange={handleFirs}
+                style={{ display: "none" }}
+              />
+            </label>
+            {firs.length > 0 && (
+              <p style={{ color: "#10b981", fontSize: "0.85rem", margin: 0, paddingLeft: 4 }}>
+                ✓ {firs.length} FIR file(s) selected
+              </p>
+            )}
+          </div>
 
           {/* CDR */}
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: 16,
-              background: "#1b263b",
-              border: "2px dashed #2e3c54",
-              borderRadius: 8,
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#06b6d4";
-              e.currentTarget.style.background = "rgba(6, 182, 212, 0.05)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "#2e3c54";
-              e.currentTarget.style.background = "#1b263b";
-            }}
-          >
-            <Phone size={20} color="#06b6d4" />
-            <span style={{ color: "#e2e8f0", fontSize: "0.95rem" }}>
-              Call Detail Record (*.csv)
-            </span>
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleCdr}
-              style={{ display: "none" }}
-            />
-          </label>
-          {cdr && (
-            <p style={{ color: "#10b981", fontSize: "0.85rem", margin: "0 0 -12px 0" }}>
-              ✓ {cdr.name} selected
-            </p>
-          )}
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: 16,
+                background: "#1b263b",
+                border: "2px dashed #2e3c54",
+                borderRadius: 8,
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#06b6d4";
+                e.currentTarget.style.background = "rgba(6, 182, 212, 0.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#2e3c54";
+                e.currentTarget.style.background = "#1b263b";
+              }}
+            >
+              <Phone size={20} color="#06b6d4" />
+              <span style={{ color: "#e2e8f0", fontSize: "0.95rem" }}>
+                Call Detail Record (*.csv)
+              </span>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleCdr}
+                style={{ display: "none" }}
+              />
+            </label>
+            {cdr && (
+              <p style={{ color: "#10b981", fontSize: "0.85rem", margin: 0, paddingLeft: 4 }}>
+                ✓ {cdr.name} selected
+              </p>
+            )}
+          </div>
 
           {/* Transactions */}
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: 16,
-              background: "#1b263b",
-              border: "2px dashed #2e3c54",
-              borderRadius: 8,
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#10b981";
-              e.currentTarget.style.background = "rgba(16, 185, 129, 0.05)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "#2e3c54";
-              e.currentTarget.style.background = "#1b263b";
-            }}
-          >
-            <Database size={20} color="#10b981" />
-            <span style={{ color: "#e2e8f0", fontSize: "0.95rem" }}>
-              Financial Transactions (*.csv)
-            </span>
-            <input
-              type="file"
-              accept=".csv"
-              onChange={handleTxns}
-              style={{ display: "none" }}
-            />
-          </label>
-          {transactions && (
-            <p style={{ color: "#10b981", fontSize: "0.85rem", margin: "0 0 -12px 0" }}>
-              ✓ {transactions.name} selected
-            </p>
-          )}
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: 16,
+                background: "#1b263b",
+                border: "2px dashed #2e3c54",
+                borderRadius: 8,
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#10b981";
+                e.currentTarget.style.background = "rgba(16, 185, 129, 0.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#2e3c54";
+                e.currentTarget.style.background = "#1b263b";
+              }}
+            >
+              <Database size={20} color="#10b981" />
+              <span style={{ color: "#e2e8f0", fontSize: "0.95rem" }}>
+                Financial Transactions (*.csv)
+              </span>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleTxns}
+                style={{ display: "none" }}
+              />
+            </label>
+            {transactions && (
+              <p style={{ color: "#10b981", fontSize: "0.85rem", margin: 0, paddingLeft: 4 }}>
+                ✓ {transactions.name} selected
+              </p>
+            )}
+          </div>
 
           {/* Status Message */}
           {statusMsg && (

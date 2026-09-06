@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Network, Database, Users, Activity, Shield, AlertTriangle, RefreshCw, UploadCloud } from 'lucide-react';
+import { Network, Database, Users, Activity, Shield, AlertTriangle, RefreshCw, UploadCloud, LogOut } from 'lucide-react';
 import * as api from './services/api';
 import GraphCanvas from './components/GraphCanvas';
 import UploadModal from './components/UploadModal';
+import Login from './components/Login';
 import './index.css';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!sessionStorage.getItem('token'));
   const [loading, setLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
@@ -17,10 +19,21 @@ function App() {
   const [graphStats, setGraphStats] = useState({ nodes: 0, edges: 0 });
   const [selectedNode, setSelectedNode] = useState(null);
 
-  // Fetch data on mount
+  // Fetch data on mount or when authenticated
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    if (isAuthenticated) {
+      fetchDashboardData();
+    }
+  }, [isAuthenticated]);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    setIsAuthenticated(false);
+    setGraphData({ nodes: [], edges: [] });
+    setKeyPlayers([]);
+    setCommunities([]);
+    setDataLoaded(false);
+  };
 
   const fetchDashboardData = async () => {
     try {
@@ -42,6 +55,7 @@ function App() {
           return;
         }
       } catch (e) {
+        if (e.response?.status === 401) handleLogout();
         setDataLoaded(false);
         setLoading(false);
         return;
@@ -81,7 +95,11 @@ function App() {
       await fetchDashboardData();
     } catch (error) {
       console.error("Error running ingestion", error);
-      alert("Error processing data: " + (error.response?.data?.detail || error.message));
+      if (error.response?.status === 401) {
+        handleLogout();
+      } else {
+        alert("Error processing data: " + (error.response?.data?.detail || error.message));
+      }
     } finally {
       setLoading(false);
     }
@@ -104,6 +122,10 @@ function App() {
       });
     }
   };
+
+  if (!isAuthenticated) {
+    return <Login onLoginSuccess={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div className="app-container">
@@ -140,6 +162,14 @@ function App() {
             disabled={loading}
           >
             <Database size={16} /> Re-Ingest Data
+          </button>
+
+          <button
+            className="btn-primary"
+            style={{ padding: '8px 16px', fontSize: '0.85rem', backgroundColor: '#ef4444', border: '1px solid #dc2626' }}
+            onClick={handleLogout}
+          >
+            <LogOut size={16} /> Logout
           </button>
         </div>
       </header>

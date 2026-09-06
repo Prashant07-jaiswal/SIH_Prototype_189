@@ -54,9 +54,12 @@ app.add_middleware(
 )
 
 # ============================================================================
-# REGISTER UPLOAD ROUTES
+# REGISTER ROUTES
 # ============================================================================
 from upload_routes import router as upload_router
+from auth import router as auth_router
+
+app.include_router(auth_router)
 app.include_router(upload_router)
 
 

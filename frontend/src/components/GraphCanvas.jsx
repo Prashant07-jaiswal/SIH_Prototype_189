@@ -62,6 +62,11 @@ export default function GraphCanvas({ graphData, onSelectNode, selectedNode }) {
       weight: e.weight || 1
     }));
 
+    // Safety check: Filter out any orphaned links where the source or target node doesn't exist.
+    // If d3-force receives a link with a missing node, it throws "Cannot create property 'vx' on string" and crashes.
+    const validNodeIds = new Set(nodes.map(n => n.id));
+    links = links.filter(l => validNodeIds.has(l.source) && validNodeIds.has(l.target));
+
     // Apply Filter by Type
     if (filterType !== 'ALL') {
       const allowedNodeIds = new Set(nodes.filter(n => n.type === filterType).map(n => n.id));
@@ -261,8 +266,36 @@ export default function GraphCanvas({ graphData, onSelectNode, selectedNode }) {
         onBackgroundClick={() => {
           onSelectNode(null);
         }}
+        onNodeDrag={(node) => {
+          // Prevent NaN from infecting physics
+          if (isNaN(node.x) || isNaN(node.y)) {
+            node.x = 0;
+            node.y = 0;
+          }
+        }}
+        onNodeDragEnd={(node) => {
+          // Release fixed position so the node snaps back into the cluster 
+          // instead of staying pinned at extreme/off-screen coordinates
+          node.fx = null;
+          node.fy = null;
+        }}
+        onEngineTick={() => {
+          // Force bounds to prevent the d3-force simulation from exploding 
+          // if a node is shot out to infinity
+          const maxDim = 5000;
+          formattedData.nodes.forEach(node => {
+            if (isNaN(node.x) || Math.abs(node.x) > maxDim) {
+              node.x = 0; node.vx = 0; node.fx = null;
+            }
+            if (isNaN(node.y) || Math.abs(node.y) > maxDim) {
+              node.y = 0; node.vy = 0; node.fy = null;
+            }
+          });
+        }}
         nodeCanvasObject={(node, ctx, globalScale) => {
-          const label = node.name;
+          if (typeof node.x !== 'number' || typeof node.y !== 'number' || isNaN(node.x) || isNaN(node.y)) return;
+          
+          const label = node.name || '';
           const fontSize = 12 / globalScale;
           const radius = node.type === 'Person' ? 6 : 4.5;
 
