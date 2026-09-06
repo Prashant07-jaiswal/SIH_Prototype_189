@@ -39,7 +39,7 @@ def _save_upload(file: UploadFile, dest_dir: Path) -> Path:
 
 @router.post("/", summary="Upload FIRs, CDRs and transaction files")
 async def upload_evidence(
-    firs: Optional[List[UploadFile]] = File(None),
+    firs: List[UploadFile] = File(default=[]),
     cdr: Optional[UploadFile] = File(None),
     transactions: Optional[UploadFile] = File(None),
 ):
@@ -51,7 +51,7 @@ async def upload_evidence(
     2. Run the extraction and analytics pipeline
     3. Return updated graph statistics and key findings
     """
-    from .main import ingest_all_data, app_state
+    from main import ingest_all_data, app_state
 
     upload_root = Path(__file__).parent.parent / "data_uploads"
 
@@ -67,12 +67,12 @@ async def upload_evidence(
 
         if cdr:
             cdr_path = _save_upload(cdr, upload_root)
-            cdr_path.rename(upload_root / "cdr.csv")
+            cdr_path.replace(upload_root / "cdr.csv")
             logger.info(f"Saved CDR: {cdr.filename}")
 
         if transactions:
             txn_path = _save_upload(transactions, upload_root)
-            txn_path.rename(upload_root / "transactions.csv")
+            txn_path.replace(upload_root / "transactions.csv")
             logger.info(f"Saved Transactions: {transactions.filename}")
     except Exception as exc:
         logger.error(f"Failed to store uploaded files: {exc}")
@@ -114,5 +114,7 @@ async def upload_evidence(
         "message": "✅ Data uploaded and analytics refreshed.",
     }
 
+    from fastapi.encoders import jsonable_encoder
+    
     logger.info(f"Upload completed: {dash_payload['graph_stats']['nodes']} nodes, {dash_payload['graph_stats']['edges']} edges")
-    return JSONResponse(content=dash_payload)
+    return JSONResponse(content=jsonable_encoder(dash_payload))

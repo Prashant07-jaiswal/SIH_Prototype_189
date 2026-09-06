@@ -46,9 +46,15 @@ export default function UploadModal({ isOpen, onClose, onRefresh }) {
       }, 1000);
     } catch (e) {
       console.error(e);
-      setStatusMsg(
-        "❌ " + (e.response?.data?.detail || "Upload failed – see console for details.")
-      );
+      let errorDetail = e.response?.data?.detail || e.message || "Upload failed – see console for details.";
+      if (typeof errorDetail === "object") {
+        if (Array.isArray(errorDetail)) {
+          errorDetail = errorDetail.map(err => err.msg || JSON.stringify(err)).join(", ");
+        } else {
+          errorDetail = errorDetail.msg || JSON.stringify(errorDetail);
+        }
+      }
+      setStatusMsg("❌ " + errorDetail);
     } finally {
       setLoading(false);
     }

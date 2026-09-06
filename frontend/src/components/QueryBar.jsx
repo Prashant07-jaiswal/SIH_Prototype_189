@@ -35,9 +35,18 @@ export default function QueryBar({ graphData, onHighlightPath }) {
           timestamp: new Date().toLocaleTimeString()
         });
 
+        // Extract matched entity IDs from the response message and highlights
+        let highlightedIds = [];
+        if (response.data.matches && Array.isArray(response.data.matches)) {
+          highlightedIds = response.data.matches.map(m => m.id);
+        }
+
         // If response includes path data, highlight it on graph
-        if (response.data.path && onHighlightPath) {
-          onHighlightPath(response.data.path);
+        if (onHighlightPath) {
+          onHighlightPath({
+            nodeIds: highlightedIds,
+            path: response.data.path
+          });
         }
       }
     } catch (err) {
@@ -188,9 +197,12 @@ export default function QueryBar({ graphData, onHighlightPath }) {
           <div style={{
             fontSize: '0.8rem',
             color: '#cbd5e1',
-            lineHeight: 1.5,
-            maxHeight: 150,
-            overflowY: 'auto'
+            lineHeight: 1.8,
+            maxHeight: 200,
+            overflowY: 'auto',
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+            fontFamily: 'monospace'
           }}>
             {result.message}
           </div>
@@ -220,9 +232,9 @@ export default function QueryBar({ graphData, onHighlightPath }) {
           alignItems: 'start'
         }}>
           <AlertCircle size={14} style={{ flexShrink: 0, marginTop: 2 }} />
-          <div>
+          <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 500, marginBottom: 4 }}>Error</div>
-            <div style={{ fontSize: '0.8rem' }}>{error}</div>
+            <div style={{ fontSize: '0.8rem', lineHeight: 1.6, wordBreak: 'break-word' }}>{error}</div>
           </div>
           <button
             onClick={() => setError(null)}
@@ -233,7 +245,8 @@ export default function QueryBar({ graphData, onHighlightPath }) {
               color: '#fca5a5',
               padding: 0,
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center',
+              flexShrink: 0
             }}
           >
             <X size={14} />
