@@ -447,17 +447,18 @@ async def detect_communities():
 @app.post("/api/query")
 async def natural_language_query(request: QueryRequest):
     """
-    Answer natural language queries on the criminal network
+    Answer natural language queries on the criminal network with smart intent detection
 
-    Explanation:
-    - Converts "Who connects A to B?" into a path-finding problem
-    - Uses Dijkstra algorithm to find shortest path
-    - Returns nodes, edges, and AI summary
+    Smart features:
+    - Detects query intent: "accounts/banks", "people/suspects", "vehicles", "locations", "cases"
+    - Filters neighbors by entity type based on intent
+    - Returns only relevant entity types for the query
 
     Examples:
-    - "Who connects Gang A to Hawala?"
-    - "What's the path from Vikram to ₹50L transfer?"
-    - "Who's the intermediary between Mumbai and Delhi?"
+    - "What accounts link to MH02AB1234?" → Returns BankAccount entities only
+    - "Who drove the vehicle MH02AB1234?" → Returns Person entities only
+    - "What cases mention Vikram?" → Returns Case entities only
+    - "Show connections for this phone" → Returns all types (no specific filter)
     """
     if not app_state.network_graph or not app_state.entities:
         raise HTTPException(status_code=400, detail="Run /api/ingest/all first")
@@ -466,11 +467,59 @@ async def natural_language_query(request: QueryRequest):
         query = request.query.lower()
         logger.info(f"Processing query: {query}")
 
-        # Extract keywords from query
+        # ===== STEP 1: DETECT QUERY INTENT =====
+        # Map keywords to entity types we want to filter by
+        intent_filters = {
+            'account': ['BankAccount'],
+            'bank': ['BankAccount'],
+            'money': ['BankAccount'],
+            'transaction': ['BankAccount'],
+            'transfer': ['BankAccount'],
+            'hawala': ['BankAccount'],
+
+            'person': ['Person'],
+            'people': ['Person'],
+            'suspect': ['Person'],
+            'criminal': ['Person'],
+            'who': ['Person'],
+            'accused': ['Person'],
+            'driver': ['Person'],
+            'owner': ['Person'],
+
+            'vehicle': ['Vehicle'],
+            'car': ['Vehicle'],
+            'bike': ['Vehicle'],
+            'auto': ['Vehicle'],
+            'plate': ['Vehicle'],
+            'registration': ['Vehicle'],
+
+            'location': ['Location'],
+            'place': ['Location'],
+            'city': ['Location'],
+            'area': ['Location'],
+            'district': ['Location'],
+
+            'case': ['Case'],
+            'fir': ['Case'],
+            'complaint': ['Case'],
+            'crime': ['Case']
+        }
+
+        # Detect filter based on query keywords
+        filter_types = []
+        for keyword, entity_types in intent_filters.items():
+            if keyword in query:
+                filter_types.extend(entity_types)
+
+        # Remove duplicates
+        filter_types = list(set(filter_types)) if filter_types else None
+
+        logger.info(f"Query intent detected - Filter types: {filter_types}")
+
+        # ===== STEP 2: FIND MATCHING ENTITIES =====
         keywords = query.split()
         matches = []
 
-        # Find matching entities by name/keywords
         for entity in app_state.entities:
             entity_name = entity.name.lower()
             for keyword in keywords:
@@ -482,32 +531,52 @@ async def natural_language_query(request: QueryRequest):
                         'keyword': keyword
                     })
 
-        # Build response message
+        # ===== STEP 3: BUILD RESPONSE WITH FILTERED NEIGHBORS =====
         if matches:
             message = f"Found {len(matches)} matching entities:\n\n"
 
             unique_names = list(set([m['name'] for m in matches]))
-            for name in unique_names[:5]:  # Show top 5
+            for name in unique_names[:5]:
                 message += f"• {name}\n"
 
-            # If we have network graph, analyze connections
+            # If we have network graph, analyze connections with smart filtering
             if app_state.network_graph and len(matches) >= 1:
                 first_entity_id = matches[0]['id']
                 if first_entity_id in app_state.network_graph:
-                    neighbors = list(app_state.network_graph.neighbors(first_entity_id))
-                    message += f"\n{matches[0]['name']} is connected to {len(neighbors)} entities:\n"
+                    all_neighbors = list(app_state.network_graph.neighbors(first_entity_id))
 
-                    # Show some neighbors
-                    for neighbor_id in neighbors[:5]:
+                    # ===== SMART FILTER: Show only relevant entity types =====
+                    if filter_types:
+                        # Filter neighbors to match the detected intent
+                        filtered_neighbors = []
+                        for neighbor_id in all_neighbors:
+                            neighbor_entity = next((e for e in app_state.entities if e.id == neighbor_id), None)
+                            if neighbor_entity and neighbor_entity.type in filter_types:
+                                filtered_neighbors.append(neighbor_id)
+
+                        display_neighbors = filtered_neighbors
+                        entity_type_label = " & ".join(filter_types)
+                        message += f"\n{matches[0]['name']} is connected to {len(filtered_neighbors)} {entity_type_label} entities:\n"
+                    else:
+                        # No specific filter - show all
+                        display_neighbors = all_neighbors
+                        message += f"\n{matches[0]['name']} is connected to {len(all_neighbors)} entities:\n"
+
+                    # Show filtered neighbors
+                    for neighbor_id in display_neighbors[:5]:
                         neighbor_entity = next((e for e in app_state.entities if e.id == neighbor_id), None)
                         if neighbor_entity:
                             message += f"  → {neighbor_entity.name} ({neighbor_entity.type})\n"
 
-                    if len(neighbors) > 5:
-                        message += f"  ... and {len(neighbors) - 5} more connections"
+                    if len(display_neighbors) > 5:
+                        message += f"  ... and {len(display_neighbors) - 5} more"
+
+                    # If no results after filtering, show what was available
+                    if not display_neighbors and filter_types:
+                        message += f"\n⚠️ No {entity_type_label} entities connected to {matches[0]['name']}.\n"
+                        message += f"Available neighbors: {len(all_neighbors)} total entities"
         else:
             message = f"No matching entities found for query: '{request.query}'\n\nTry searching for:\n"
-            # Show some example entities
             for entity in app_state.entities[:5]:
                 message += f"• {entity.name}\n"
 
@@ -517,7 +586,8 @@ async def natural_language_query(request: QueryRequest):
             "message": message,
             "matches": matches,
             "matches_found": len(matches),
-            "entities_analyzed": len(app_state.entities)
+            "entities_analyzed": len(app_state.entities),
+            "intent_filter": filter_types
         }
     except Exception as e:
         logger.error(f"Error processing query: {str(e)}")

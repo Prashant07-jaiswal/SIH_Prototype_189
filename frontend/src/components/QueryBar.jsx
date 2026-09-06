@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Search, Send, X, AlertCircle, Loader } from 'lucide-react';
 import * as api from '../services/api';
 
@@ -16,6 +16,10 @@ export default function QueryBar({ graphData, onHighlightPath }) {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [position, setPosition] = useState({ x: window.innerWidth - 420, y: 16 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const barRef = useRef(null);
 
   const handleQuery = async () => {
     if (!query.trim()) return;
@@ -74,11 +78,51 @@ export default function QueryBar({ graphData, onHighlightPath }) {
     setQuery('');
   };
 
+  const handleMouseDown = (e) => {
+    if (barRef.current && e.target.closest('input, button')) return;
+    setIsDragging(true);
+    setDragOffset({
+      x: e.clientX - position.x,
+      y: e.clientY - position.y
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+
+    const newX = e.clientX - dragOffset.x;
+    const newY = e.clientY - dragOffset.y;
+
+    // Keep bar within screen bounds (with 10px margin)
+    const constrainedX = Math.max(10, Math.min(newX, window.innerWidth - 410));
+    const constrainedY = Math.max(10, Math.min(newY, window.innerHeight - 100));
+
+    setPosition({
+      x: constrainedX,
+      y: constrainedY
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  React.useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, dragOffset, position]);
+
   return (
-    <div style={{
+    <div ref={barRef} style={{
       position: 'absolute',
-      top: 16,
-      right: 16,
+      top: position.y,
+      left: position.x,
       zIndex: 20,
       maxWidth: 400,
       background: 'rgba(19, 27, 44, 0.95)',
@@ -86,8 +130,10 @@ export default function QueryBar({ graphData, onHighlightPath }) {
       border: '1px solid #2e3c54',
       borderRadius: 8,
       padding: 12,
-      transition: 'all 0.3s ease'
-    }}>
+      transition: isDragging ? 'none' : 'all 0.3s ease',
+      cursor: isDragging ? 'grabbing' : 'grab',
+      userSelect: 'none'
+    }} onMouseDown={handleMouseDown}>
       {/* Header */}
       <div style={{
         display: 'flex',

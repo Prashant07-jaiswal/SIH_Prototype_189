@@ -258,6 +258,9 @@ export default function GraphCanvas({ graphData, onSelectNode, selectedNode }) {
         onNodeClick={(node) => {
           if (onSelectNode) onSelectNode(node);
         }}
+        onBackgroundClick={() => {
+          onSelectNode(null);
+        }}
         nodeCanvasObject={(node, ctx, globalScale) => {
           const label = node.name;
           const fontSize = 12 / globalScale;
